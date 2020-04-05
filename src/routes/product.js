@@ -8,6 +8,6 @@ router.get('/products/', productController.getProducts);
 
 router.get('/products/:productId', productController.getProduct);
 
-router.post('/products', productController.createProduct);
+router.post('/products/', productController.createProduct);
 
 module.exports = router;

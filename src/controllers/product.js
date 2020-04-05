@@ -4,7 +4,6 @@ const HTTPError = require('../errors/httpError');
 
 exports.createProduct = async (req, res, next) => {
   try {
-    console.log(req.body);
     const { name, desc, price, img, category, size, brand, color } = req.body;
     const product = new Product({
       name,

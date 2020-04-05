@@ -13,9 +13,10 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.use(setHeaders);
+
 app.use(productRoutes);
 
-app.use(setHeaders);
 app.use(errorHandler);
 
 mongoose
