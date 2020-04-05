@@ -45,7 +45,9 @@ exports.getProducts = async (req, res, next) => {
   try {
     const offset = +req.query.offset || null;
     const limit = +req.query.limit || null;
+    const sort = req.query.sort || 'name';
     const products = await Product.find()
+      .sort(sort)
       .skip(offset)
       .limit(limit)
       .select('_id name price img category size brand');
