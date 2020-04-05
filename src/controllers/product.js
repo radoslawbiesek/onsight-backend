@@ -4,7 +4,7 @@ const HTTPError = require('../errors/httpError');
 
 exports.createProduct = async (req, res, next) => {
   try {
-    console.log(req.body)
+    console.log(req.body);
     const { name, desc, price, img, category, size, brand, color } = req.body;
     const product = new Product({
       name,
@@ -28,7 +28,9 @@ exports.createProduct = async (req, res, next) => {
 exports.getProduct = async (req, res, next) => {
   try {
     const { productId } = req.params;
-    const product = await Product.findById(productId);
+    const product = await Product.findById(productId).select(
+      '_id name price img category size brand desc'
+    );
     if (!product) {
       throw new HTTPError('Product does not exist', 400);
     }
@@ -47,10 +49,13 @@ exports.getProducts = async (req, res, next) => {
     const products = await Product.find()
       .skip(offset)
       .limit(limit)
-      .select('-desc');
-    res
-      .status(200)
-      .json({ message: 'Products found', data: { products }, error: '' });
+      .select('_id name price img category size brand');
+    const count = await Product.countDocuments();
+    res.status(200).json({
+      message: 'Products found',
+      data: { products, count },
+      error: '',
+    });
   } catch (error) {
     next(error);
   }
