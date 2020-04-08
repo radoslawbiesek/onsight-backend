@@ -61,3 +61,23 @@ exports.getProducts = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getFilters = async (req, res, next) => {
+  try {
+    const products = await Product.find(
+      {},
+      { category: 1, color: 1, size: 1, brand: 1 }
+    );
+    const brand = Array.from(new Set(products.map(({ brand }) => brand)));
+    const size = Array.from(new Set(products.map(({ size }) => size)));
+    const category = Array.from(new Set(products.map(({ category }) => category)));
+    const color = Array.from(new Set(products.map(({ color }) => color).flat()));
+    res.status(200).json({
+      message: 'Categories found',
+      error: '',
+      data: { brand, size, category, color },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
